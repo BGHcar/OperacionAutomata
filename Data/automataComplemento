@@ -1,0 +1,20 @@
+digraph {
+	rankdir=LR
+	size="8,5"
+	start [shape=point]
+	AC [shape=circle]
+	start -> AC
+	AC [shape=doublecircle]
+	AD [shape=doublecircle]
+	BC [shape=doublecircle]
+	BD [shape=circle]
+	BD [shape=circle]
+	AC -> AD [label=1]
+	AC -> BC [label=0]
+	AD -> AD [label=1]
+	AD -> BD [label=0]
+	BC -> BD [label=1]
+	BC -> BC [label=0]
+	BD -> BD [label=1]
+	BD -> BD [label=0]
+}
