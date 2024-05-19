@@ -153,7 +153,8 @@ def main():
                 automataComplement = automataController.automataComplement(automataIntersection)
             showAutomata.showAutomata(automataComplement, "Complemento")
             automataReverse = automataController.automataReverse(automataIntersection)
-            showAutomata.showAutomata(automataReverse, "Reverso")
+            showAutomata.showAutomata(automataReverse[1], "SimpleReverse")
+            showAutomata.showAutomata(automataReverse[0], "Reverso")
 
         else:
             automataUnion = automataController.automataUnion(automataController.automataUnion(automata1, automata2), automata3)
@@ -168,7 +169,8 @@ def main():
                 automataComplement = automataController.automataComplement(automataIntersection)
             showAutomata.showAutomata(automataComplement, "Complemento")
             automataReverse = automataController.automataReverse(automataIntersection)
-            showAutomata.showAutomata(automataReverse, "Reverso")
+            showAutomata.showAutomata(automataReverse[1], "SimpleReverse")
+            showAutomata.showAutomata(automataReverse[0], "Reverso")
 
 
         print ("Desea continuar? (s : si, cualquier otra letra : no)")

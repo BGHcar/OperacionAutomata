@@ -137,12 +137,14 @@ def automataReverse(automaton: automata.Automata):
         
     newAutomata.alphabet = automaton.alphabet
 
+    autNFA = newAutomata
+
     newAutomata = build_nfa(newAutomata)
     newAutomata = nfa_to_dfa(newAutomata)
 
-    # newAutomata = validateTransitions(newAutomata)
+    autNFA = validateTransitions(autNFA)
 
-    return newAutomata
+    return newAutomata, autNFA
 
 
 def validateTransitions(automaton: automata.Automata):
