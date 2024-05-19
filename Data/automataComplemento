@@ -5,10 +5,8 @@ digraph {
 	AC [shape=circle]
 	start -> AC
 	AC [shape=doublecircle]
-	AD [shape=circle]
-	AD [shape=circle]
-	BC [shape=circle]
-	BC [shape=circle]
+	AD [shape=doublecircle]
+	BC [shape=doublecircle]
 	BD [shape=circle]
 	BD [shape=circle]
 	AC -> BC [label=0]

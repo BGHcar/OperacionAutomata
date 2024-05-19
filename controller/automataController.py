@@ -1,4 +1,5 @@
 import model.automata as automata
+from pyformlang.finite_automaton import State, Symbol, NondeterministicFiniteAutomaton, DeterministicFiniteAutomaton
 
 
 def automataUnion(automata1: automata.Automata, automata2: automata.Automata):
@@ -133,10 +134,13 @@ def automataReverse(automaton: automata.Automata):
     for transition in automaton.transitions:
         newAutomata.transitions.append(automata.Transition(
             transition.next_state, transition.symbol, transition.state))
+        
+    newAutomata.alphabet = automaton.alphabet
 
-    DNFAtoDFA(newAutomata)
+    newAutomata = build_nfa(newAutomata)
+    newAutomata = nfa_to_dfa(newAutomata)
 
-    newAutomata = validateTransitions(newAutomata)
+    # newAutomata = validateTransitions(newAutomata)
 
     return newAutomata
 
@@ -183,44 +187,90 @@ def isDFA(automaton: automata.Automata):
 
     return True
 
-
-def DNFAtoDFA(automaton: automata.Automata):
+def nfa_to_dfa(nfa):
+    dfa = nfa.to_deterministic()
     print ("____________________________________________________")
-    print ("Comienza la conversion de un automata finito no determinista a determinista")
-    if isDFA(automaton):
-        print("El autómata ya es DFA")
-        return automaton
+    print (dfa)
+    print ("____________________________________________________")
+    return dfa
 
-    initial_state = automaton.initial_state
-    state_transitions = automata.Transition("", "", "")
-    tranciciones: list[automata.Transition] = []
-
-    # Evaluamos nuestro estado initial y vemos a donde nos lleva con cada simbolo del alfabeto
-
-    # Creo una variable que almacene el estado inicial y la transicion que se hace con cada simbolo del alfabeto
-
-    for transition in automaton.transitions:
-        if transition.state == initial_state:
-            print(f"Entró a validar estados")
-            state_transitions.state = transition.state
-            state_transitions.symbol = transition.symbol
-            state_transitions.next_state = transition.next_state
-            tranciciones.append(automata.Transition(state_transitions.state, state_transitions.symbol, state_transitions.next_state))
-            print (f"Estado: {state_transitions.state }, Simbolo: {state_transitions.symbol}, Estado Siguiente: {state_transitions.next_state}")
+# Función para construir el NFA
+def build_nfa(automaton):
+    alphabet = set(automaton.alphabet)
+    initial_state = State(automaton.initial_state)
+    final_states = set(automaton.final_states)
     
+    nfa = NondeterministicFiniteAutomaton()
+    
+    for state in automaton.states:
+        nfa._states.add(State(state))
+    nfa.add_start_state(initial_state)
+    for final_state in final_states:
+        nfa.add_final_state(State(final_state))
+    
+    for transition in automaton.transitions:
+        nfa.add_transition(State(transition.state), Symbol(transition.symbol), State(transition.next_state))
+    
+    return nfa
 
-    print("____________________________________________________")
-    print ("Automata finito no determinista a determinista")
-    print("____________________________________________________")
+
+# def DNFAtoDFA(automaton: automata.Automata):
+#     print ("____________________________________________________")
+#     print ("Comienza la conversion de un automata finito no determinista a determinista")
+#     if isDFA(automaton):
+#         print("El autómata ya es DFA")
+#         return automaton
+
+#     alphabet = automaton.alphabet
+#     initial_state = automaton.initial_state
+#     state_transitions = automata.Transition("", "", "")
+#     tranciciones: list[automata.Transition] = []
+
+#     # Evaluamos nuestro estado initial y vemos a donde nos lleva con cada simbolo del alfabeto
+
+#     # Creo una variable que almacene el estado inicial y la transicion que se hace con cada simbolo del alfabeto
+
+#     for transition in automaton.transitions:
+#         if transition.state == initial_state:
+#             print(f"Entró a validar estados")
+#             state_transitions.state = transition.state
+#             state_transitions.symbol = transition.symbol
+#             state_transitions.next_state = transition.next_state
+#             tranciciones.append(automata.Transition(state_transitions.state, state_transitions.symbol, state_transitions.next_state))
+#             print (f"Estado: {state_transitions.state }, Simbolo: {state_transitions.symbol}, Estado Siguiente: {state_transitions.next_state}")
+    
+#     #Uno los valores de transicion de los estados siguientes cuando tengan el mismo simbolo y los almacenamos en una lista
+
+#     new_transitions:list [automata.Transition] = []
+#     new_state = ""
+#     for letter in alphabet:
+#         for transition in tranciciones:
+#             if transition.symbol == letter:
+#                 new_state += transition.next_state
+#         new_transitions.append(automata.Transition(transition.state, letter, new_state))
+#         new_state = ""
+
+
+#     print("____________________________________________________")
+#     print("Estas son las nuevas transiciones")
+#     for transition in new_transitions:
+#         print(f"Estado: {transition.state}, Simbolo: {transition.symbol}, Estado Siguiente: {transition.next_state}")
+
+#     print("____________________________________________________")
+
+
+
+
+
+
+#     print("____________________________________________________")
+#     print ("Automata finito no determinista a determinista")
+#     print("____________________________________________________")
         
-    print("Estas son las nuevas transiciones")
-    for transition in tranciciones:
-        print(f"Estado: {transition.state}, Simbolo: {transition.symbol}, Estado Siguiente: {transition.next_state}")
+#     print("Estas son las nuevas transiciones")
+#     for transition in tranciciones:
+#         print(f"Estado: {transition.state}, Simbolo: {transition.symbol}, Estado Siguiente: {transition.next_state}")
 
 
-    print("____________________________________________________")   
-    print("Termina la conversion de un automata finito no determinista a determinista")
-
-
-
-
+#     print("____________________________________________________")   
+#     print("Termina la conversion de un automata finito no determinista a determinista")
