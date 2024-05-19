@@ -156,9 +156,9 @@ def main():
             showAutomata.showAutomata(automataReverse, "Reverso")
 
         else:
-            automataUnion = automataController.automataUnion(automataUnion(automata1, automata2), automata3)
+            automataUnion = automataController.automataUnion(automataController.automataUnion(automata1, automata2), automata3)
             showAutomata.showAutomata(automataUnion, "Union")
-            automataIntersection = automataController.automataIntersection(automataIntersection(automata1, automata2), automata3)
+            automataIntersection = automataController.automataIntersection(automataController.automataIntersection(automata1, automata2), automata3)
             showAutomata.showAutomata(automataIntersection, "Interseccion")
 
             automataComplement = None
