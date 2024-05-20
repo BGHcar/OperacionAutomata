@@ -102,7 +102,7 @@ def automataComplement(automaton: automata.Automata):
             # Si el estado original es inicial, será final
             newAutomata.initial_state = state
         if state in automaton.final_states:
-            # Si el estado original es final, será final
+            # Si el estado original es final, será inicial
             newAutomata.states.append(state)
         else:
             # Si no es ni inicial ni final, será final
@@ -159,22 +159,16 @@ def validateTransitions(automaton: automata.Automata):
                     contador += 1
 
             if contador == 0 and state != automaton.initial_state:
-                print(f"El estado {state} no tiene transiciones")
                 transitionstoDelete.append(state)
                 automaton.states.remove(state)
 
             contador = 0
-
-        print("Estos son los estados a eliminar", transitionstoDelete)
 
         # Eliminar transiciones asociadas a los estados a eliminar
         automaton.transitions = [transition for transition in automaton.transitions
                                 if transition.state not in transitionstoDelete
                                 and transition.next_state not in transitionstoDelete]
 
-        print("Estas son las nuevas transiciones")
-        for transition in automaton.transitions:
-            print(f"Estado: {transition.state}, Simbolo: {transition.symbol}, Estado Siguiente: {transition.next_state}")
     
         if transitionstoDelete == []: # Si no hay estados sin transiciones, terminar
             break
@@ -194,9 +188,6 @@ def isDFA(automaton: automata.Automata):
 
 def nfa_to_dfa(nfa):
     dfa = nfa.to_deterministic()
-    print ("____________________________________________________")
-    print (dfa)
-    print ("____________________________________________________")
     return dfa
 
 # Función para construir el NFA

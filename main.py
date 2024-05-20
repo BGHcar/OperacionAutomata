@@ -172,8 +172,6 @@ def main():
             showAutomata.showAutomata(automataReverse[1], "SimpleReverse")
             showAutomata.showAutomata(automataReverse[0], "Reverso")
 
-        print ("Este es el estado inicial del automata union", automataUnion.initial_state)
-        print ("Este es el estado inicial del automata interseccion", automataIntersection.initial_state)
 
         print ("Desea continuar? (s : si, cualquier otra letra : no)")
 
