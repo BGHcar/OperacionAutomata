@@ -19,11 +19,13 @@ def main():
                 isValidInput = True
                 while isValidInput:
                     next_state = input(f"Ingrese el estado siguiente del estado {state} con el simbolo {symbol}: ")
-                    if next_state not in states:
+                    print(f"este es el numero", next_state)
+                    if next_state not in states and next_state != "":
                         print("El estado no pertenece al automata")
                     else:
+                        if next_state != None:
+                            transitions.append(automata.Transition(state, symbol, next_state))
                         isValidInput = False
-                        transitions.append(automata.Transition(state, symbol, next_state))
 
         isValidInput = True
 
@@ -63,11 +65,12 @@ def main():
                 isValidInput = True
                 while isValidInput:
                     next_state = input(f"Ingrese el estado siguiente del estado {state} con el simbolo {symbol}: ")
-                    if next_state not in states:
+                    if next_state not in states and next_state != "":
                         print("El estado no pertenece al automata")
                     else:
+                        if next_state != None:
+                            transitions.append(automata.Transition(state, symbol, next_state))
                         isValidInput = False
-                        transitions.append(automata.Transition(state, symbol, next_state))
 
         isValidInput = True
         while isValidInput:
@@ -110,11 +113,13 @@ def main():
                     isValidInput = True
                     while isValidInput:
                         next_state = input(f"Ingrese el estado siguiente del estado {state} con el simbolo {symbol}: ")
-                        if next_state not in states:
+                        if next_state not in states and next_state != "":
                             print("El estado no pertenece al automata")
                         else:
+                            if next_state != None:
+                                transitions.append(automata.Transition(state, symbol, next_state))
                             isValidInput = False
-                            transitions.append(automata.Transition(state, symbol, next_state))
+                            
 
             isValidInput = True
             while isValidInput:
@@ -146,6 +151,7 @@ def main():
             automataIntersection = automataController.automataIntersection(automata1, automata2)
             showAutomata.showAutomata(automataIntersection, "Interseccion")
 
+
             automataComplement = None
             if option == "1":
                 automataComplement = automataController.automataComplement(automataUnion)
@@ -171,6 +177,9 @@ def main():
             automataReverse = automataController.automataReverse(automataIntersection)
             showAutomata.showAutomata(automataReverse[1], "SimpleReverse")
             showAutomata.showAutomata(automataReverse[0], "Reverso")
+            
+
+
 
 
         print ("Desea continuar? (s : si, cualquier otra letra : no)")

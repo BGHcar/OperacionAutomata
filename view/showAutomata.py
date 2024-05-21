@@ -33,8 +33,9 @@ def showAutomata(automata: automata.Automata, type: str):
                 dot.node(str(state), shape='circle')
         
         for state in dfa.states:
-            for symbol, next_state in dfa._transition_function._transitions[state].items():
-                dot.edge(str(state), str(next_state), label=str(symbol))
+            if state in dfa._transition_function._transitions:
+                for symbol, next_state in dfa._transition_function._transitions[state].items():
+                    dot.edge(str(state), str(next_state), label=str(symbol))
     
     dot.render('Data/automata'+type, format='pdf', view=True)
     return dot

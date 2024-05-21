@@ -120,6 +120,16 @@ def automataComplement(automaton: automata.Automata):
 
 def automataReverse(automaton: automata.Automata):
     newAutomata = automata.Automata([], [], [], '', [])
+    
+    automaton = validateTransitions(automaton)
+    print("Estas son las transiciones validadas")
+    for transition in automaton.transitions:
+        print(f"Estado: {transition.state}, Simbolo: {transition.symbol}, Estado Siguiente: {transition.next_state}")
+        
+    print("____________________________________________________")
+    print("Estos son los estados validados")
+    for state in automaton.states:
+        print(f"Estado: {state}")
 
     # Construir los estados
     for state in automaton.states:
@@ -142,12 +152,12 @@ def automataReverse(automaton: automata.Automata):
     newAutomata = build_nfa(newAutomata)
     newAutomata = nfa_to_dfa(newAutomata)
 
-    autNFA = validateTransitions(autNFA)
 
     return newAutomata, autNFA
 
 
 def validateTransitions(automaton: automata.Automata):
+    #validar que todos los estados siguientes del automata esten en los estados del automata, si no lo estan, deben ser agregados
 
     # Eliminar estados sin transiciones
     while True: # Mientras haya estados sin transiciones
@@ -155,7 +165,7 @@ def validateTransitions(automaton: automata.Automata):
         contador = 0
         for state in automaton.states:
             for transition in automaton.transitions:
-                if state in transition.next_state:
+                if state in transition.next_state :
                     contador += 1
 
             if contador == 0 and state != automaton.initial_state:
@@ -168,6 +178,15 @@ def validateTransitions(automaton: automata.Automata):
         automaton.transitions = [transition for transition in automaton.transitions
                                 if transition.state not in transitionstoDelete
                                 and transition.next_state not in transitionstoDelete]
+        
+        #Revisar si las transiciones no tienen estados siguientes "", si los hay, la transicion debe ser eliminada
+        automaton.transitions = [transition for transition in automaton.transitions
+                                if transition.next_state != ""] # Si el estado siguiente no es "", no se elimina la transicion
+        
+        #Revisar que los estados siguientes de la transicion esten en los estados del automata, si no lo estan, se eliminan
+        automaton.transitions = [transition for transition in automaton.transitions
+                                if transition.next_state in automaton.states]
+        
 
     
         if transitionstoDelete == []: # Si no hay estados sin transiciones, terminar
